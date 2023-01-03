@@ -1,7 +1,6 @@
 use std::env;
 
 use serenity::async_trait;
-// use serenity::model::application::command::Command;
 use serenity::model::application::interaction::{Interaction, InteractionResponseType};
 use serenity::model::gateway::Ready;
 use serenity::model::id::GuildId;
@@ -17,7 +16,9 @@ pub fn ping_run(_options: &[CommandDataOption]) -> String {
 }
 
 pub fn ping_register(command: &mut CreateApplicationCommand) -> &mut CreateApplicationCommand {
-    command.name("ping").description("A ping command")
+    command
+        .name("Hello")
+        .description("This is a little command i just made ")
 }
 
 #[async_trait]
@@ -58,10 +59,6 @@ impl EventHandler for Handler {
 
         let commands = GuildId::set_application_commands(&guild_id, &ctx.http, |commands| {
             commands.create_application_command(|command| ping_register(command))
-            // .create_application_command(|command| commands::id::register(command))
-            // .create_application_command(|command| commands::welcome::register(command))
-            // .create_application_command(|command| commands::numberinput::register(command))
-            // .create_application_command(|command| commands::attachmentinput::register(command))
         })
         .await;
 
@@ -69,16 +66,6 @@ impl EventHandler for Handler {
             "I now have the following guild slash commands: {:#?}",
             commands
         );
-
-        // let guild_command = Command::create_global_application_command(&ctx.http, |command| {
-        //     commands::wonderful_command::register(command)
-        // })
-        // .await;
-
-        // println!(
-        //     "I created the following global slash command: {:#?}",
-        //     guild_command
-        // );
     }
 }
 
